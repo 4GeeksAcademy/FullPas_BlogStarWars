@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import storeReducer from "../store";
+import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 export const Navbar = () => {
+	const { store, dispatch } = useGlobalReducer()
 
 	return (
 		<nav className="navbar navbar-light bg-light">
@@ -8,6 +11,7 @@ export const Navbar = () => {
 				<Link to="/">
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>
+				{store.message}
 				<div className="ml-auto">
 					<Link to="/demo">
 						<button className="btn btn-primary">Check the Context in action</button>
