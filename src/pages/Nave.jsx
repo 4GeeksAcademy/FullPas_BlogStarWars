@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 // Define and export the Single component which displays individual item details.
 export const Nave = props => {
   // Access the global state using the custom hook.
-  const { store } = useGlobalReducer()
+  //const { store } = useGlobalReducer()
 
   // Retrieve the 'theId' URL parameter using useParams hook.
   const { naveId } = useParams()
@@ -24,7 +24,11 @@ export const Nave = props => {
   return (
     <div className="container text-center">
       {/* Display the title of the todo element dynamically retrieved from the store using theId. */}
-
+      <img
+        src={`https://github.com/breatheco-de/swapi-images/blob/master/public/images/starships/${naveId}.jpg?raw=true`}
+        className="card-img-top"
+        style={{ width: "224px", height: "126px", objectFit: "cover" }}
+      />
       <p className="display-4">Nave Id: {naveId}</p>
       <p className="display-4">Name: {starship.name}</p>
       <p className="display-4">Model: {starship.model}</p>

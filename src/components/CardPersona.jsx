@@ -13,7 +13,7 @@ export const CardPersona = (props) => {
                 <img 
                 src={`https://github.com/breatheco-de/swapi-images/blob/master/public/images/people/${props.uid}.jpg?raw=true`}
                 className="card-img-top mt-3" 
-                style={{ width: "224px", height: "126px", objectFit: "cover" }} 
+                style={{ width: "224px", height: "200px", objectFit: "cover" }} 
                 loading = "lazy"
                 />
                 <div className="card-body d-flex flex-column justify-content-between">

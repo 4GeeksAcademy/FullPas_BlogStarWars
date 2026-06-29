@@ -8,20 +8,19 @@ import { Link } from "react-router-dom";
 
 export const Home = () => {
   const { store, dispatch } = useGlobalReducer();
-  //const [starchips, setStarship] = useState([])
 
   useEffect(() => {
   async function getData() {
     const [resNaves, resPlanetas, resPersonas] = await Promise.all([
       fetch("https://www.swapi.tech/api/starships"),
       fetch("https://www.swapi.tech/api/planets"),
-      fetch("https://www.swapi.tech/api/people"),
+      fetch("https://www.swapi.tech/api/people")
     ]);
 
     const [naves, planetas, personas] = await Promise.all([
       resNaves.json(),
       resPlanetas.json(),
-      resPersonas.json(),
+      resPersonas.json()
     ]);
 
     dispatch({
@@ -36,43 +35,6 @@ export const Home = () => {
 
   getData();
 }, []);
-
-  // useEffect(() => {
-  //   fetch("https://www.swapi.tech/api/starships ")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.results);
-  //       //setStarship(data.results)
-  //       dispatch({
-  //         type: "Load_starships",
-  //         payload: { nuevasNaves: data.results },
-  //       });
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch("https://www.swapi.tech/api/planets")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.results);
-  //       dispatch({
-  //         type: "Load_planets",
-  //         payload: { nuevosPlanetas: data.results },
-  //       });
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch("https://www.swapi.tech/api/people/")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.results);
-  //       dispatch({
-  //         type: "Load_people",
-  //         payload: { nuevasPersonas: data.results },
-  //       });
-  //     });
-  // }, []);
 
   return (
     <>
@@ -101,7 +63,7 @@ export const Home = () => {
             <div className="col-lg-12 mx-auto lead">
               <div className="text-center mt-5">
                 <div className="row flex-row flex-nowrap overflow-scroll">
-                  {store.planetas.map((planeta, index) => (
+                 {store.planetas.map((planeta, index) => (
                     <CardPlanet
                       uid={planeta.uid}
                       key={index}

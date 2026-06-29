@@ -1,74 +1,60 @@
 export const initialStore = () => {
   return {
-    todos: [
-      {
-        id: 1,
-        title: "Make the bed",
-        background: null,
-      },
-      {
-        id: 2,
-        title: "Do my homework",
-        background: null,
-      }
-    ],
     naves: [],
     planetas: [],
     personas: [],
-    message: 'un mensaje en contexto'
-  }
-}
+    favoritos: [],
+  };
+};
 
 export default function storeReducer(store, action = {}) {
+  //Action.type es la accion que vas ha hacer (añadir o quitar tarea, por ejemplo, pero no das informacion d elo que vas ha hacer)
   switch (action.type) {
-    case 'add_task':
-
-      const { id, color } = action.payload
-
-      return {
-        ...store,
-        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
-      };
-
-    //FUNCION PARA TRAER DATOS DE LA API AL ESTORAGE
-    // case 'Load_starships':
-    //   const { nuevasNaves } = action.payload
-    //   return {
-    //     ...store,
-    //     naves: nuevasNaves
-    //   };
-
-    // case 'Load_planets':
-    //   const { nuevosPlanetas } = action.payload
-    //   return {
-    //     ...store,
-    //     planetas: nuevosPlanetas
-    //   };
-    // case 'Load_people':
-    //   const { nuevasPersonas } = action.payload
-    //   return {
-    //     ...store,
-    //     personas: nuevasPersonas
-    //   };
-
     case "load_data": {
-      const { nuevasPersonas, nuevasNaves, nuevosPlanetas } = action.payload
-       return {
+      const { nuevasPersonas, nuevasNaves, nuevosPlanetas } = action.payload; //es la informacion que tu das para que se haga lo que haya en el case, por ejemplo un ID, que te permitirá hacer "algo"
+      return {
         ...store,
         personas: nuevasPersonas,
         naves: nuevasNaves,
-        planetas: nuevosPlanetas
+        planetas: nuevosPlanetas,
       };
     }
 
-    case 'change_message':
-      const { nuevoMessage } = action.payload
+    case "agregar_favoritos": {
+      const esFavorito = store.favoritos.some(
+        fav => String(fav) === String(action.payload)
+      );
+      console.log(store.favoritos);
+      console.log(action.payload);
+      
+      
+      if (esFavorito) {
+        // Ya existe, no agregarlo
+        return store;
+      } else {
+        // No existe, agregarlo
+        return {
+          ...store,
+          favoritos: [...store.favoritos, action.payload]
+        };
+      }
+    }
+
+    case "quitar_favoritos": {
       return {
         ...store,
-        message: nuevoMessage
+        favoritos: store.favoritos.filter(fav => fav != action.payload),
+      };
+    }
+
+    case "change_message":
+      const { nuevoMessage } = action.payload;
+      return {
+        ...store,
+        message: nuevoMessage,
       };
 
     default:
-      throw Error('Unknown action.');
+      throw Error("Unknown action.");
   }
 }

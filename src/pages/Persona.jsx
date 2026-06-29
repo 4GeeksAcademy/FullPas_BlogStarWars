@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 // Define and export the Single component which displays individual item details.
 export const Persona = (props) => {
   // Access the global state using the custom hook.
-  const { store } = useGlobalReducer()
+  //const { store } = useGlobalReducer()
 
   // Retrieve the 'theId' URL parameter using useParams hook.
   const { personaId } = useParams()
@@ -19,20 +19,16 @@ export const Persona = (props) => {
             console.log(data.result.properties)
       setPerson(data.result.properties)
     })
-
-    //     fetch('https://raw.githubusercontent.com/breatheco-de/swapi-images/refs/heads/master/public/images/people' + personaId)
-    //     .then( (response)=> response.json())
-    //     .then( (data)=>{
-    //         console.log(data.result.properties)
-    //   setPerson(data.result.properties)
-    // })
-
   },[] )
 
   return (
     <div className="container text-center">
       {/* Display the title of the todo element dynamically retrieved from the store using theId. */}
-
+      <img
+        src={`https://github.com/breatheco-de/swapi-images/blob/master/public/images/people/${personaId}.jpg?raw=true`}
+        className="card-img-top mt-3"
+        style={{ width: "224px", height: "200px", objectFit: "cover" }}
+      />
       <p className="display-4">Persona Id: {personaId}</p>
       <p className="display-4">Nombre: {person.name}</p>
       <p className="display-4">Género: {person.gender}</p>
