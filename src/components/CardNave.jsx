@@ -6,27 +6,21 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 export const CardNave = (props) => {
   const { store, dispatch } = useGlobalReducer();
   const [imageSrc, setImageSrc] = useState(`https://github.com/breatheco-de/swapi-images/blob/master/public/images/starships/${props.uid}.jpg?raw=true`);
-  const esFavorito = store.favoritos?.some(fav=> fav === props.uid)
+  const tipoFavorito = "naves";
+  const esFavorito = store.favoritos?.some(
+    fav => String(fav?.type) === tipoFavorito && String(fav?.id) === String(props.uid)
+  );
 
   function accionBotonFav(){
-    if (esFavorito) {
-      dispatch ({
-        type: "quitar_favoritos",
-        payload: props.uid
-      })
-    }
-    else{
-            dispatch ({
-        type: "agregar_favoritos",
-        payload: props.uid
-      })
-    }
+    dispatch ({
+      type: esFavorito ? "quitar_favoritos" : "agregar_favoritos",
+      payload: { type: tipoFavorito, id: props.uid }
+    })
   }
   return (
     <div
       className="card mx-2 h-100"
-      style={{ width: "15.6rem", minHeight: "15rem" }}
-    >
+      style={{ width: "15.6rem", minHeight: "15rem" }}>
       {/*<img src={rigoImageUrl} className="card-img-top" alt="..." style={{ width: "224px", height: "126px", objectFit: "cover" }} />*/}
       
       <img
@@ -34,21 +28,13 @@ export const CardNave = (props) => {
         onError={() => setImageSrc('https://cdn1.vectorstock.com/i/1000x1000/32/45/no-image-symbol-missing-available-icon-gallery-vector-45703245.jpg')}
         className="card-img-top mt-3"
         alt="..."
-        style={{ width: "224px", height: "200px", objectFit: "cover" }}
-      />
-
-
- 
-
+        style={{ width: "224px", height: "200px", objectFit: "cover" }}/>
 
       <div className="card-body d-flex flex-column justify-content-between">
         <div style={{ minHeight: "80px" }}>
           <h5 className="card-title" style={{ fontSize: "1rem" }}>
             {props.name}
           </h5>
-          <p className="card-text" style={{ fontSize: "1rem" }}>
-            id {props.uid}
-          </p>
         </div>
         <div className="d-flex flex-column gap-2 mt-auto">
           <Link to={"nave/" + props.uid} className="btn btn-primary btn-sm">
@@ -56,8 +42,7 @@ export const CardNave = (props) => {
           </Link>
           <button
             className="btn btn-sm"
-            onClick={accionBotonFav}
-          >
+            onClick={accionBotonFav}>
             <i className={esFavorito ? "fa-solid fa-heart" : "fa-regular fa-heart"}></i>
           </button>
         </div>

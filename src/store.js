@@ -21,29 +21,34 @@ export default function storeReducer(store, action = {}) {
     }
 
     case "agregar_favoritos": {
+      const favorito = typeof action.payload === "string"
+        ? { type: "general", id: action.payload }
+        : action.payload;
+
       const esFavorito = store.favoritos.some(
-        fav => String(fav) === String(action.payload)
+        fav => String(fav?.type) === String(favorito?.type) && String(fav?.id) === String(favorito?.id)
       );
-      console.log(store.favoritos);
-      console.log(action.payload);
-      
-      
+
       if (esFavorito) {
-        // Ya existe, no agregarlo
         return store;
-      } else {
-        // No existe, agregarlo
-        return {
-          ...store,
-          favoritos: [...store.favoritos, action.payload]
-        };
       }
+
+      return {
+        ...store,
+        favoritos: [...store.favoritos, favorito],
+      };
     }
 
     case "quitar_favoritos": {
+      const favorito = typeof action.payload === "string"
+        ? { type: "general", id: action.payload }
+        : action.payload;
+
       return {
         ...store,
-        favoritos: store.favoritos.filter(fav => fav != action.payload),
+        favoritos: store.favoritos.filter(
+          fav => !(String(fav?.type) === String(favorito?.type) && String(fav?.id) === String(favorito?.id))
+        ),
       };
     }
 

@@ -4,6 +4,18 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 export const CardPlanet = (props) => {
   const { store, dispatch } = useGlobalReducer();
+  const tipoFavorito = "planetas";
+  const esFavorito = store.favoritos?.some(
+    fav => String(fav?.type) === tipoFavorito && String(fav?.id) === String(props.uid)
+  );
+
+  function accionBotonFav(){
+    dispatch ({
+      type: esFavorito ? "quitar_favoritos" : "agregar_favoritos",
+      payload: { type: tipoFavorito, id: props.uid }
+    })
+  }
+
   return (
     <div
       className="card mx-2 h-100"
@@ -23,9 +35,7 @@ export const CardPlanet = (props) => {
           <h5 className="card-title" style={{ fontSize: "1rem" }}>
             {props.name}
           </h5>
-          <p className="card-text" style={{ fontSize: "1rem" }}>
-            id {props.uid}
-          </p>
+
         </div>
         <div className="d-flex flex-column gap-2 mt-auto">
           <Link to={"planeta/" + props.uid} className="btn btn-primary btn-sm">
@@ -33,14 +43,8 @@ export const CardPlanet = (props) => {
           </Link>
           <button
             className="btn btn-sm"
-            onClick={() =>
-              dispatch({
-                type: "change_message",
-                payload: { nuevoMessage: "Nuevo mensaje en contexto" },
-              })
-            }
-          >
-            Cambiar Mensaje
+            onClick={accionBotonFav}>
+            <i className={esFavorito ? "fa-solid fa-heart" : "fa-regular fa-heart"}></i>
           </button>
         </div>
       </div>
